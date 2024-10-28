@@ -1,6 +1,7 @@
 package com.hypad.App.controlller;
 
 import com.hypad.App.details.CustomUserDetails;
+import com.hypad.App.enums.RoleEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,14 +42,22 @@ public class PublicEndController {
     public String publicEndPoint(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()){
+
             Object principal = authentication.getPrincipal();
+            boolean hasAdminRole = authentication.getAuthorities()
+                    .stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(RoleEnum.ADMIN_ROLE.name()));
+
             if(principal instanceof CustomUserDetails){
+                if(hasAdminRole){
+                    return "You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername();
+                }
                 return "Hello " + ((CustomUserDetails) principal).getUsername();
-            }else {
-                return "Principal is not an instanceof CustomUserDetails";
+            } else {
+                return "Principal is not an instanceof CustomUserDetails/UserDetails";
             }
         }else {
-            return "Authentication null or user isnt authenticated";
+            return "Thats public view"; //return ModelAndView
         }
     }
 

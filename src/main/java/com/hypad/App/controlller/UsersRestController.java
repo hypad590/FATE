@@ -24,6 +24,7 @@ public class UsersRestController {
     }
 
     @GetMapping("/users/{role}")
+    @ResponseBody
     public List<UserEntity> getUsersByRole(@PathVariable String role){
         return service.getAllUsers().stream()
                 .filter(u -> u.getRole().toString().equals(role))

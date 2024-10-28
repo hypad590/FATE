@@ -10,8 +10,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -28,13 +30,14 @@ public class WebConfig {
                         request.requestMatchers("/signup",
                                         "/webjars/**","/error","/js/**","/css/**","/images/**","/public")
                                 .permitAll()
-                                .requestMatchers("/sa", "/swagger-ui/**", "/users/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
+                                .requestMatchers("/sa", "/swagger-ui/**", "/api/v1/users/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
                                 .anyRequest().authenticated()
                                 )
                 .formLogin(
                         login -> login.permitAll()
                                 .defaultSuccessUrl("/public", true)
-                );
+                )
+                .logout(LogoutConfigurer::permitAll);
         return http.build();
     }
 
@@ -51,4 +54,8 @@ public class WebConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
 }

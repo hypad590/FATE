@@ -1,0 +1,96 @@
+/* General Body Styles */
+body.cyberpunk-body {
+    font-family: 'Courier New', Courier, monospace;
+    background: linear-gradient(135deg, #03031d, #1d0130);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff00ff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px #ff00ff;
+    animation: flicker 1.5s infinite alternate;
+}
+
+/* Cyberpunk Text Style */
+.neon-text {
+    font-size: 2rem;
+    color: #00ff9c;
+    text-shadow: 0 0 5px #00ff9c, 0 0 10px #00ff9c, 0 0 20px #00ff9c;
+}
+
+.admin-text {
+    color: #ff0080;
+    text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080;
+}
+
+/* Input Fields */
+.cyberpunk-input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+    background: transparent;
+    color: #fff;
+    border: 2px solid #00ff9c;
+    outline: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #00ff9c;
+    transition: 0.3s;
+}
+
+.cyberpunk-input:focus {
+    border-color: #ff00ff;
+    box-shadow: 0px 0px 10px #ff00ff;
+}
+
+/* Button Style */
+.cyberpunk-button {
+    background: transparent;
+    padding: 1rem 2rem;
+    border: 2px solid #00ff9c;
+    color: #00ff9c;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 0px 10px #00ff9c;
+}
+
+.cyberpunk-button:hover {
+    background: #00ff9c;
+    color: #1d0130;
+    box-shadow: 0px 0px 20px #ff00ff;
+}
+
+.admin-button {
+    border-color: #ff0080;
+    color: #ff0080;
+    box-shadow: 0px 0px 10px #ff0080;
+}
+
+.admin-button:hover {
+    background: #ff0080;
+    color: #1d0130;
+    box-shadow: 0px 0px 20px #00ff9c;
+}
+
+/* Animations */
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0;
+    }
+}

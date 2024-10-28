@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Signup</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="cyberpunk-body">
+<div class="container">
+  <h1 class="neon-text admin-text">Admin Sign Up</h1>
+  <form id="signupAdminForm" onsubmit="submitAdminForm(event)">
+    <label for="username" class="neon-text">Username</label>
+    <input type="text" id="username" name="username" required class="cyberpunk-input">
+
+    <label for="password" class="neon-text">Password</label>
+    <input type="password" id="password" name="password" required class="cyberpunk-input">
+
+    <button type="submit" class="cyberpunk-button admin-button">Sign Up as Admin</button>
+  </form>
+</div>
+
+<script>
+        async function submitAdminForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = document.getElementById("signupAdminForm");
+            const formData = new FormData(form);
+
+            // Convert form data to JSON
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Send JSON data using Fetch API
+            try {
+                const response = await fetch("/sa", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jsonData)
+                });
+
+                if (response.ok) {
+                    alert("Admin signup successful!");
+                    form.reset();
+                } else {
+                    alert("Admin signup failed. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred during admin signup.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -5,6 +5,8 @@ import com.hypad.App.enums.RoleEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,7 +41,13 @@ public class PublicEndController {
 
     @GetMapping("/public")
     @ResponseBody
-    public String publicEndPoint(){
+    @Operation(summary = "public endpoint")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Has admin role/user role"),
+            @ApiResponse(responseCode = "418", description = "Principal is instanceof another object"),
+            @ApiResponse(responseCode = "202", description = "No authorization")
+    })
+    public ResponseEntity<String> publicEndPoint(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()){
 
@@ -50,14 +58,14 @@ public class PublicEndController {
 
             if(principal instanceof CustomUserDetails){
                 if(hasAdminRole){
-                    return "You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername();
+                    return ResponseEntity.status(HttpStatus.OK).body("You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername());
                 }
-                return "Hello " + ((CustomUserDetails) principal).getUsername();
+                return ResponseEntity.status(HttpStatus.OK).body("Hello " + ((CustomUserDetails) principal).getUsername());
             } else {
-                return "Principal is not an instanceof CustomUserDetails/UserDetails";
+                return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("Principal is not an instanceof CustomUserDetails/UserDetails");
             }
         }else {
-            return "Thats public view"; //return ModelAndView
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Thats public view"); //return ModelAndView
         }
     }
 

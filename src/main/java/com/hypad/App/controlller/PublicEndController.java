@@ -11,8 +11,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
@@ -47,7 +49,9 @@ public class PublicEndController {
             @ApiResponse(responseCode = "418", description = "Principal is instanceof another object"),
             @ApiResponse(responseCode = "202", description = "No authorization")
     })
-    public ResponseEntity<String> publicEndPoint(){
+    public ModelAndView publicEndPoint(){
+        ModelAndView modelAndView = new ModelAndView("publicEndpoint");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()){
 
@@ -58,15 +62,22 @@ public class PublicEndController {
 
             if(principal instanceof CustomUserDetails){
                 if(hasAdminRole){
-                    return ResponseEntity.status(HttpStatus.OK).body("You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername());
+                    modelAndView.addObject("msg", "You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername());
+                    modelAndView.setStatus(HttpStatus.OK);
+                    return modelAndView;
                 }
-                return ResponseEntity.status(HttpStatus.OK).body("Hello " + ((CustomUserDetails) principal).getUsername());
+                modelAndView.addObject("msg","Hello " + ((CustomUserDetails) principal).getUsername());
+                modelAndView.setStatus(HttpStatus.OK);
             } else {
-                return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("Principal is not an instanceof CustomUserDetails/UserDetails");
+                modelAndView.addObject("msg","Principal is not an instanceof CustomUserDetails/UserDetails");
+                modelAndView.setStatus(HttpStatus.I_AM_A_TEAPOT);
             }
         }else {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Thats public view"); //return ModelAndView
+            modelAndView.addObject("msg", "Thats public view");
+            modelAndView.setStatus(HttpStatus.ACCEPTED);
         }
+        assert !modelAndView.isEmpty();
+        return modelAndView;
     }
 
 }

@@ -1,96 +1,111 @@
-/* General Body Styles */
-body.cyberpunk-body {
-    font-family: 'Courier New', Courier, monospace;
-    background: linear-gradient(135deg, #03031d, #1d0130);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* General Reset */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial Black', sans-serif;
 }
 
-/* Container */
+/* Background and Color Scheme */
+body {
+    background-color: #1b1b1b; /* Dark background */
+    color: #f2f2f2; /* Light text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    animation: background-glow 3s infinite alternate;
+}
+
+/* Background Glow Animation */
+@keyframes background-glow {
+    0% { background-color: #1b1b1b; }
+    100% { background-color: #262626; }
+}
+
+/* Container Styling */
 .container {
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
+    background: rgba(27, 27, 27, 0.9);
+    border: 2px solid #00ff88;
     padding: 2rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 2px solid #ff00ff;
     border-radius: 8px;
-    box-shadow: 0px 0px 15px #ff00ff;
-    animation: flicker 1.5s infinite alternate;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
 }
 
-/* Cyberpunk Text Style */
-.neon-text {
-    font-size: 2rem;
-    color: #00ff9c;
-    text-shadow: 0 0 5px #00ff9c, 0 0 10px #00ff9c, 0 0 20px #00ff9c;
+/* Headings and Neon Text Effect */
+h1.neon-text {
+    font-size: 2.5rem;
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88;
+    animation: flicker 2s infinite alternate;
 }
 
-.admin-text {
-    color: #ff0080;
-    text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080;
+/* Flicker Animation for Text */
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88;
+    }
+    20%, 24%, 55% {
+        opacity: 0.5;
+        text-shadow: none;
+    }
 }
 
 /* Input Fields */
 .cyberpunk-input {
-    width: 100%;
-    padding: 0.75rem;
+    background-color: #1b1b1b;
+    border: 2px solid #00ff88;
+    color: #f2f2f2;
+    padding: 10px;
     margin: 1rem 0;
+    width: 100%;
     font-size: 1rem;
-    background: transparent;
-    color: #fff;
-    border: 2px solid #00ff9c;
-    outline: none;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px #00ff9c;
-    transition: 0.3s;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
 .cyberpunk-input:focus {
-    border-color: #ff00ff;
-    box-shadow: 0px 0px 10px #ff00ff;
+    border-color: #00cc70;
+    box-shadow: 0 0 8px #00ff88;
 }
 
-/* Button Style */
+/* Buttons */
 .cyberpunk-button {
-    background: transparent;
-    padding: 1rem 2rem;
-    border: 2px solid #00ff9c;
-    color: #00ff9c;
+    background-color: #00ff88;
+    color: #1b1b1b;
+    border: none;
+    padding: 10px 20px;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0px 0px 10px #00ff9c;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
 }
 
 .cyberpunk-button:hover {
-    background: #00ff9c;
-    color: #1d0130;
-    box-shadow: 0px 0px 20px #ff00ff;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00cc70, 0 0 25px #00cc70;
+}
+
+/* Admin-Specific Styling */
+.admin-text {
+    color: #ff4400;
+    text-shadow: 0 0 10px #ff4400, 0 0 20px #ff5500;
 }
 
 .admin-button {
-    border-color: #ff0080;
-    color: #ff0080;
-    box-shadow: 0px 0px 10px #ff0080;
+    background-color: #ff4400;
+    box-shadow: 0 0 10px #ff4400, 0 0 20px #ff5500;
 }
 
 .admin-button:hover {
-    background: #ff0080;
-    color: #1d0130;
-    box-shadow: 0px 0px 20px #00ff9c;
-}
-
-/* Animations */
-@keyframes flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-    }
-    20%, 24%, 55% {
-        opacity: 0;
-    }
+    box-shadow: 0 0 15px #ff5500, 0 0 25px #ff6600;
 }

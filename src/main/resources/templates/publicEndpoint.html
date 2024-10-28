@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Public endpoint</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        /* Background and Color Scheme */
+        body {
+            background-color: #1b1b1b; /* Dark background */
+            color: #f2f2f2; /* Light text color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: background-glow 3s infinite alternate;
+        }
+
+        /* Glow Animation */
+        @keyframes background-glow {
+            0% { background-color: #1b1b1b; }
+            100% { background-color: #262626; }
+        }
+
+        /* Neon Text Effect */
+        p {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88, 0 0 40px #00ff88;
+            animation: flicker 2s infinite alternate;
+        }
+
+        /* Flicker Animation */
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 20px #00ff88;
+            }
+            20%, 24%, 55% {
+                opacity: 0.5;
+                text-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<p th:text="${msg}">Welcome to the public endpoint</p>
+</body>
+</html>

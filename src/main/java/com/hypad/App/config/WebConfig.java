@@ -26,9 +26,9 @@ public class WebConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/signup",
-                                        "/webjars/**","/error","/js/**","/css/**","/images/**")
+                                        "/webjars/**","/error","/js/**","/css/**","/images/**","/public")
                                 .permitAll()
-                                .requestMatchers("/sa", "/swagger-ui/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
+                                .requestMatchers("/sa", "/swagger-ui/**", "/users/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
                                 .anyRequest().authenticated()
                                 )
                 .formLogin(

@@ -6,17 +6,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.Principal;
 
 @Controller
 public class PublicEndController {
@@ -62,22 +57,29 @@ public class PublicEndController {
 
             if(principal instanceof CustomUserDetails){
                 if(hasAdminRole){
-                    modelAndView.addObject("msg", "You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername());
-                    modelAndView.setStatus(HttpStatus.OK);
+                    setUpModelAndView(modelAndView,
+                            "You can choose your FATË admin " + ((CustomUserDetails) principal).getUsername(),
+                            HttpStatus.OK);
                     return modelAndView;
                 }
-                modelAndView.addObject("msg","Hello " + ((CustomUserDetails) principal).getUsername());
-                modelAndView.setStatus(HttpStatus.OK);
+                setUpModelAndView(modelAndView,
+                        "Hello " + ((CustomUserDetails) principal).getUsername(),
+                        HttpStatus.OK);
             } else {
-                modelAndView.addObject("msg","Principal is not an instanceof CustomUserDetails/UserDetails");
-                modelAndView.setStatus(HttpStatus.I_AM_A_TEAPOT);
+                setUpModelAndView(modelAndView,
+                        "Principal is not an instanceof CustomUserDetails/UserDetails",
+                        HttpStatus.I_AM_A_TEAPOT);
             }
         }else {
-            modelAndView.addObject("msg", "Thats public view");
-            modelAndView.setStatus(HttpStatus.ACCEPTED);
+            setUpModelAndView(modelAndView,
+                    "Thats public view",
+                    HttpStatus.ACCEPTED);
         }
         assert !modelAndView.isEmpty();
         return modelAndView;
     }
-
+    private void setUpModelAndView(ModelAndView modelAndView, String attrValue, HttpStatus httpStatus){
+        modelAndView.addObject("msg",attrValue);
+        modelAndView.setStatus(httpStatus);
+    }
 }

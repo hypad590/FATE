@@ -17,4 +17,11 @@ public class UserService {
     public List<UserEntity> getAllUsers(){
         return repository.findAll();
     }
+
+    public Object findUserById(Long id){
+        if (repository.findUserById(id) != null){
+            return repository.findUserById(id);
+        }
+        return "No user with id " + id + " found";
+    }
 }

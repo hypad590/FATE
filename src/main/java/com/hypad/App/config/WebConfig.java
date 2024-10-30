@@ -30,7 +30,7 @@ public class WebConfig {
                         request.requestMatchers("/signup",
                                         "/webjars/**","/error","/js/**","/css/**","/images/**","/public")
                                 .permitAll()
-                                .requestMatchers("/sa", "/swagger-ui/**", "/api/v1/users/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
+                                .requestMatchers("/sa", "/swagger-ui/**", "/api/v1/users/**", "/api/v1/users/n/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
                                 .anyRequest().authenticated()
                                 )
                 .formLogin(

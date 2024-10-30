@@ -82,4 +82,10 @@ public class PublicEndController {
         modelAndView.addObject("msg",attrValue);
         modelAndView.setStatus(httpStatus);
     }
+
+    @GetMapping("/update")
+    public String updateUser(){
+        return "update";
+    }
+
 }

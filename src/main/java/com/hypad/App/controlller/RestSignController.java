@@ -31,6 +31,7 @@ public class RestSignController {
                 .username(dto.getUsername())
                 .password(new BCryptPasswordEncoder().encode(dto.getPassword()))
                 .role(RoleEnum.USER_ROLE)
+                .email(dto.getEmail())
                 .build();
         userRepository.save(user);
     }
@@ -43,7 +44,9 @@ public class RestSignController {
                 .builder()
                 .username(dto.getUsername())
                 .password(new BCryptPasswordEncoder().encode(dto.getPassword()))
-                .role(RoleEnum.ADMIN_ROLE).build();
+                .role(RoleEnum.ADMIN_ROLE)
+                .email(dto.getEmail())
+                .build();
         userRepository.save(user);
     }
 

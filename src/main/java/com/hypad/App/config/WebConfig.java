@@ -30,12 +30,16 @@ public class WebConfig {
                         request.requestMatchers("/signup",
                                         "/webjars/**","/error","/js/**","/css/**","/images/**","/public")
                                 .permitAll()
-                                .requestMatchers("/sa", "/swagger-ui/**", "/api/v1/users/**", "/api/v1/users/n/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
+                                .requestMatchers("/sa", "/swagger-ui/**", "/api/v1/**").hasAuthority(RoleEnum.ADMIN_ROLE.name())
+                                .requestMatchers("/api/v1/update").authenticated()
                                 .anyRequest().authenticated()
                                 )
                 .formLogin(
-                        login -> login.permitAll()
+                        login -> login.
+                                loginPage("/login")
                                 .defaultSuccessUrl("/public", true)
+                                .usernameParameter("email")
+                                .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
         return http.build();

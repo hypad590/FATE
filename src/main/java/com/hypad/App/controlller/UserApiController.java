@@ -6,16 +6,19 @@ import com.hypad.App.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,14 +30,15 @@ import java.util.stream.Collectors;
                 @ApiResponse(responseCode = "200", description = "Operation completed successfully")
         }
 )
-public class UsersRestController {
+public class UserApiController {
 
     private final UserService service;
 
-    public UsersRestController(UserService service) {
+    public UserApiController(UserService service) {
         this.service = service;
     }
-
+    @Autowired
+    private SecurityContextLogoutHandler logoutHandler;
     @Operation(
             summary = "Shows all users",
             description = "Takes no params/bodies/vars"
@@ -69,9 +73,12 @@ public class UsersRestController {
             description = "Takes Body userDTO"
     )
     @PostMapping("/update")
-    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO,
+                                             HttpServletRequest request,
+                                             HttpServletResponse response){
         service.updateExistingUser(userDTO);
         log.info("USER UPDATED: {}", userDTO);
+        logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.status(HttpStatus.OK)
                 .body("User " + service.findUserByName(userDTO.getUsername()).toString() + " was changed on " + userDTO);
     }

@@ -67,7 +67,7 @@ public class PublicEndController {
                         HttpStatus.OK);
             } else {
                 setUpModelAndView(modelAndView,
-                        "Principal is not an instanceof CustomUserDetails/UserDetails",
+                        "Youre not authenticated, some apis/urls are not accessible for you",
                         HttpStatus.I_AM_A_TEAPOT);
             }
         }else {
